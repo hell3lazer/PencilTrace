@@ -1,0 +1,8 @@
+fastapi
+uvicorn
+python-multipart
+opencv-python-headless
+opencv-contrib-python-headless
+numpy
+pandas
+PyInstaller

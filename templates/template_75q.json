@@ -1,0 +1,15 @@
+{
+    "dimensions": [800, 1000],
+    "bubbleDimensions": [30, 30],
+    "preProcessors": [],
+    "fieldBlocks": {
+        "q1_15": {
+            "origin": [100, 200],
+            "bubblesGap": 40,
+            "labelsGap": 40,
+            "fieldType": "QTYPE_INT",
+            "direction": "horizontal",
+            "labels": ["A", "B", "C", "D", "E"]
+        }
+    }
+}
