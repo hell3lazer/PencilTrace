@@ -1,14 +1,14 @@
-"""
+﻿"""
 Image based feature alignment
 Credits: https://www.learnopencv.com/image-alignment-feature-based-using-opencv-c-python/
 """
 import cv2
 import numpy as np
 
-from src.processors.interfaces.ImagePreprocessor import ImagePreprocessor
-from src.utils.image import ImageUtils
-from src.utils.interaction import InteractionUtils
-from src.constants.image_processing import (
+from backend.omr_engine.processors.interfaces.ImagePreprocessor import ImagePreprocessor
+from backend.omr_engine.utils.image import ImageUtils
+from backend.omr_engine.utils.interaction import InteractionUtils
+from backend.omr_engine.constants.image_processing import (
     DEFAULT_MAX_FEATURES,
     DEFAULT_GOOD_MATCH_PERCENT
 )

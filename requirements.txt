@@ -6,3 +6,11 @@ opencv-contrib-python-headless
 numpy
 pandas
 PyInstaller
+dotmap
+rich
+imutils
+deepmerge
+jsonschema
+matplotlib
+screeninfo
+pillow-heif

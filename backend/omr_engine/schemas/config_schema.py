@@ -1,4 +1,4 @@
-CONFIG_SCHEMA = {
+﻿CONFIG_SCHEMA = {
     "$schema": "https://json-schema.org/draft/2020-12/schema",
     "$id": "https://github.com/Udayraj123/OMRChecker/tree/master/src/schemas/config-schema.json",
     "title": "Config Schema",

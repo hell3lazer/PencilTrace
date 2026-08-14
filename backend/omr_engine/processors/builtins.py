@@ -1,8 +1,8 @@
-import cv2
+﻿import cv2
 import numpy as np
 
-from src.processors.interfaces.ImagePreprocessor import ImagePreprocessor
-from src.constants.image_processing import (
+from backend.omr_engine.processors.interfaces.ImagePreprocessor import ImagePreprocessor
+from backend.omr_engine.constants.image_processing import (
     DEFAULT_MEDIAN_BLUR_KERNEL_SIZE,
     DEFAULT_GAUSSIAN_BLUR_PARAMS
 )

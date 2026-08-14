@@ -1,4 +1,4 @@
-"""
+﻿"""
 
  OMRChecker
 
@@ -15,20 +15,20 @@ import cv2
 import pandas as pd
 from rich.table import Table
 
-from src.constants.common import (
+from backend.omr_engine.constants.common import (
     CONFIG_FILENAME,
     ERROR_CODES,
     EVALUATION_FILENAME,
     TEMPLATE_FILENAME,
 )
-from src.defaults import CONFIG_DEFAULTS
-from src.evaluation import EvaluationConfig, evaluate_concatenated_response
-from src.logger import console, logger
-from src.template import Template
-from src.utils.file import Paths, setup_dirs_for_paths, setup_outputs_for_template
-from src.utils.image import ImageUtils
-from src.utils.interaction import InteractionUtils, Stats
-from src.utils.parsing import get_concatenated_response, open_config_with_defaults
+from backend.omr_engine.defaults import CONFIG_DEFAULTS
+from backend.omr_engine.evaluation import EvaluationConfig, evaluate_concatenated_response
+from backend.omr_engine.logger import console, logger
+from backend.omr_engine.template import Template
+from backend.omr_engine.utils.file import Paths, setup_dirs_for_paths, setup_outputs_for_template
+from backend.omr_engine.utils.image import ImageUtils
+from backend.omr_engine.utils.interaction import InteractionUtils, Stats
+from backend.omr_engine.utils.parsing import get_concatenated_response, open_config_with_defaults
 
 # Load processors
 STATS = Stats()

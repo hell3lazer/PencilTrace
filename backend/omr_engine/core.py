@@ -6,7 +6,7 @@ import cv2
 import matplotlib.pyplot as plt
 import numpy as np
 
-from src.constants.common import (
+from backend.omr_engine.constants.common import (
     CLR_BLACK,
     CLR_DARK_GRAY,
     CLR_GRAY,
@@ -14,9 +14,9 @@ from src.constants.common import (
     GLOBAL_PAGE_THRESHOLD_WHITE,
     TEXT_SIZE,
 )
-from src.logger import logger
-from src.utils.image import CLAHE_HELPER, ImageUtils
-from src.utils.interaction import InteractionUtils
+from backend.omr_engine.logger import logger
+from backend.omr_engine.utils.image import CLAHE_HELPER, ImageUtils
+from backend.omr_engine.utils.interaction import InteractionUtils
 
 
 class ImageInstanceOps:
@@ -193,8 +193,8 @@ class ImageInstanceOps:
                         steps += 1
 
                     field_block.shift = shift
-                    # print("Aligned field_block: ",field_block.name,"Corrected Shift:",
-                    #   field_block.shift,", dimensions:", field_block.dimensions,
+                    print("Aligned field_block: ",field_block.name,"Corrected Shift:",
+                      field_block.shift,", dimensions:", field_block.dimensions)
                     #   "origin:", field_block.origin,'\n')
                 # print("End Alignment")
 
@@ -306,6 +306,8 @@ class ImageInstanceOps:
                         bubble_is_marked = (
                             per_q_strip_threshold > all_q_vals[total_q_box_no]
                         )
+                        if field_block_bubbles[0].field_label in ["q5", "q8"]:
+                            print(f"{field_block_bubbles[0].field_label} box {total_q_box_no}: value={all_q_vals[total_q_box_no]}, threshold={per_q_strip_threshold}, marked={bubble_is_marked}")
                         total_q_box_no += 1
                         if bubble_is_marked:
                             detected_bubbles.append(bubble)
@@ -674,7 +676,9 @@ class ImageInstanceOps:
             if max1 < confident_jump:
                 if no_outliers:
                     # All Black or All White case
-                    thr1 = global_thr
+                    # Since global_thr fails in shadows, and an all-black row is invalid anyway,
+                    # we safely assume an uniform row is all-white (empty).
+                    thr1 = np.min(q_vals) - 10
                 else:
                     # TODO: Low confidence parameters here
                     pass

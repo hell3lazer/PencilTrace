@@ -1,4 +1,4 @@
-"""
+﻿"""
 Constants for image processing operations across OMRChecker.
 """
 

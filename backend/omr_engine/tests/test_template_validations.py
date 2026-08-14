@@ -1,8 +1,8 @@
-import os
+﻿import os
 from pathlib import Path
 
-from src.tests.test_samples.sample1.boilerplate import TEMPLATE_BOILERPLATE
-from src.tests.utils import (
+from backend.omr_engine.tests.test_samples.sample1.boilerplate import TEMPLATE_BOILERPLATE
+from backend.omr_engine.tests.utils import (
     generate_write_jsons_and_run,
     run_entry_point,
     setup_mocker_patches,

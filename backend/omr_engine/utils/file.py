@@ -1,4 +1,4 @@
-import argparse
+﻿import argparse
 import json
 import os
 from csv import QUOTE_NONNUMERIC
@@ -6,7 +6,7 @@ from time import localtime, strftime
 
 import pandas as pd
 
-from src.logger import logger
+from backend.omr_engine.logger import logger
 
 
 def load_json(path, **rest):

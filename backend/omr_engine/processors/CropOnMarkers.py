@@ -1,9 +1,9 @@
-import os
+﻿import os
 
 import cv2
 import numpy as np
 
-from src.constants.image_processing import (
+from backend.omr_engine.constants.image_processing import (
     DEFAULT_BLACK_COLOR,
     DEFAULT_BORDER_REMOVE,
     DEFAULT_GAUSSIAN_BLUR_PARAMS_MARKER,
@@ -16,10 +16,10 @@ from src.constants.image_processing import (
     NORMAL_RECT_COLOR,
     QUADRANT_DIVISION,
 )
-from src.logger import logger
-from src.processors.interfaces.ImagePreprocessor import ImagePreprocessor
-from src.utils.image import ImageUtils
-from src.utils.interaction import InteractionUtils
+from backend.omr_engine.logger import logger
+from backend.omr_engine.processors.interfaces.ImagePreprocessor import ImagePreprocessor
+from backend.omr_engine.utils.image import ImageUtils
+from backend.omr_engine.utils.interaction import InteractionUtils
 
 
 class CropOnMarkers(ImagePreprocessor):

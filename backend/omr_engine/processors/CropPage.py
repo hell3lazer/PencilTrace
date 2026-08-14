@@ -1,10 +1,10 @@
-"""
+﻿"""
 https://www.pyimagesearch.com/2015/04/06/zero-parameter-automatic-canny-edge-detection-with-python-and-opencv/
 """
 import cv2
 import numpy as np
 
-from src.constants.image_processing import (
+from backend.omr_engine.constants.image_processing import (
     APPROX_POLY_EPSILON_FACTOR,
     CANNY_PARAMS,
     DEFAULT_CONTOUR_COLOR,
@@ -16,10 +16,10 @@ from src.constants.image_processing import (
     MIN_PAGE_AREA_THRESHOLD,
     PAGE_THRESHOLD_PARAMS,
 )
-from src.logger import logger
-from src.processors.interfaces.ImagePreprocessor import ImagePreprocessor
-from src.utils.image import ImageUtils
-from src.utils.interaction import InteractionUtils
+from backend.omr_engine.logger import logger
+from backend.omr_engine.processors.interfaces.ImagePreprocessor import ImagePreprocessor
+from backend.omr_engine.utils.image import ImageUtils
+from backend.omr_engine.utils.interaction import InteractionUtils
 
 
 def normalize(image):

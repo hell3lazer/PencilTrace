@@ -1,4 +1,4 @@
-import ast
+﻿import ast
 import os
 import re
 from copy import deepcopy
@@ -8,13 +8,13 @@ import cv2
 import pandas as pd
 from rich.table import Table
 
-from src.logger import console, logger
-from src.schemas.constants import (
+from backend.omr_engine.logger import console, logger
+from backend.omr_engine.schemas.constants import (
     BONUS_SECTION_PREFIX,
     DEFAULT_SECTION_KEY,
     MARKING_VERDICT_TYPES,
 )
-from src.utils.parsing import (
+from backend.omr_engine.utils.parsing import (
     get_concatenated_response,
     open_evaluation_with_validation,
     parse_fields,

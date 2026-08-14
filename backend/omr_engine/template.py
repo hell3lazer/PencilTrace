@@ -1,4 +1,4 @@
-"""
+﻿"""
 
  OMRChecker
 
@@ -6,11 +6,11 @@
  Github: https://github.com/Udayraj123
 
 """
-from src.constants.common import FIELD_TYPES
-from src.core import ImageInstanceOps
-from src.logger import logger
-from src.processors.manager import PROCESSOR_MANAGER
-from src.utils.parsing import (
+from backend.omr_engine.constants.common import FIELD_TYPES
+from backend.omr_engine.core import ImageInstanceOps
+from backend.omr_engine.logger import logger
+from backend.omr_engine.processors.manager import PROCESSOR_MANAGER
+from backend.omr_engine.utils.parsing import (
     custom_sort_output_columns,
     open_template_with_defaults,
     parse_fields,

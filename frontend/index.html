@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>PencilTrace Workspace</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="/static/style.css">
+    <link rel="stylesheet" href="/static/style.css?v=3">
 </head>
 <body>
     <div class="app-container">
@@ -18,9 +18,6 @@
                 <ul>
                     <li class="active" data-view="dashboard">
                         <span class="icon">📁</span> Dashboard
-                    </li>
-                    <li data-view="template-creator">
-                        <span class="icon">✏️</span> Template Creator
                     </li>
                     <li data-view="results">
                         <span class="icon">📊</span> Results
@@ -42,18 +39,26 @@
                 <div class="upload-card glass-panel">
                     <div class="upload-zone" id="folderDropZone">
                         <span class="upload-icon">📂</span>
-                        <h3>Select a folder or drop it here</h3>
+                        <h3>Select files or a folder, or drop them here</h3>
                         <p>Process multiple scanned exams at once.</p>
+                        <input type="file" id="fileInput" multiple accept=".jpg,.jpeg,.png,.heic,.heif" hidden>
                         <input type="file" id="folderInput" webkitdirectory directory multiple hidden>
-                        <button class="btn primary" onclick="document.getElementById('folderInput').click()">Choose Folder</button>
+                        <div style="display: flex; gap: 10px; justify-content: center; margin-top: 15px;">
+                            <button class="btn primary" onclick="document.getElementById('fileInput').click()">Choose Files</button>
+                            <button class="btn outline" onclick="document.getElementById('folderInput').click()">Choose Folder</button>
+                        </div>
                     </div>
                     
                     <div class="config-section">
                         <label for="templateSelect">Template:</label>
-                        <select id="templateSelect" class="input-modern">
-                            <option value="template_75q.json">Default 75-Question</option>
-                            <option value="template_150q.json">Default 150-Question</option>
-                        </select>
+                        <div style="display: flex; gap: 10px;">
+                            <select id="templateSelect" class="input-modern" style="flex: 1;">
+                                <option value="template_uom_60q.json">UoM 60-Question</option>
+                            </select>
+                            <button id="importBtn" class="btn outline" onclick="document.getElementById('importInput').click()">Import</button>
+                            <input type="file" id="importInput" accept=".json" hidden>
+                            <button id="exportBtn" class="btn outline">Export</button>
+                        </div>
                     </div>
                     
                     <button id="startProcessBtn" class="btn success full-width" disabled>Start Marking Process</button>
@@ -68,59 +73,29 @@
                 </div>
             </section>
 
-            <!-- Template Creator View -->
-            <section id="template-creator" class="view">
-                <header>
-                    <h1>Visual Template Creator</h1>
-                    <p>Upload a blank sheet to draw bounding boxes and create a custom layout.</p>
-                </header>
-                <div class="creator-workspace">
-                    <div class="tools-panel glass-panel">
-                        <input type="file" id="blankSheetInput" accept="image/*" hidden>
-                        <button class="btn outline full-width mb-1" onclick="document.getElementById('blankSheetInput').click()">Upload Blank Sheet</button>
-                        <div class="tool-group">
-                            <label>Template Name:</label>
-                            <input type="text" id="templateName" placeholder="my_template.json" class="input-modern full-width mb-1">
-                        </div>
-                        <button id="saveTemplateBtn" class="btn primary full-width">Save Template</button>
-                        <div id="creatorHelp" class="help-text mt-2">
-                            <p>1. Upload a blank sheet.</p>
-                            <p>2. Click and drag on the image to draw a region.</p>
-                            <p>3. Save the template.</p>
-                        </div>
-                    </div>
-                    <div class="canvas-container glass-panel">
-                        <canvas id="templateCanvas"></canvas>
-                    </div>
-                </div>
-            </section>
+
 
             <!-- Results View -->
             <section id="results" class="view">
-                <header>
+                <header style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
                     <h1>Results & Analytics</h1>
-                    <button id="exportCsvBtn" class="btn outline">Export CSV</button>
+                    <div style="display: flex; gap: 10px; align-items: center;">
+                        <label style="color: var(--text-muted); cursor: pointer; display: flex; align-items: center; gap: 5px;">
+                            <input type="checkbox" id="selectAllCheckbox"> Select All
+                        </label>
+                        <button id="exportSelectedCsvBtn" class="btn outline">Export Selected</button>
+                        <button id="exportAllCsvBtn" class="btn primary">Export All</button>
+                    </div>
                 </header>
-                <div class="results-table-container glass-panel">
-                    <table id="resultsTable" class="modern-table">
-                        <thead>
-                            <tr>
-                                <th>Filename</th>
-                                <th>Score</th>
-                                <th>Responses</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <!-- Results injected here -->
-                            <tr><td colspan="3" class="empty-state">No results yet. Run a batch process to see data here.</td></tr>
-                        </tbody>
-                    </table>
+                <div class="results-table-container">
+                    <div id="resultsList" class="results-list">
+                        <div class="empty-state glass-panel" style="padding: 2rem; text-align: center;">No results yet. Run a batch process to see data here.</div>
+                    </div>
                 </div>
             </section>
         </main>
     </div>
 
-    <script src="/static/app.js"></script>
-    <script src="/static/template_creator.js"></script>
+    <script src="/static/app.js?v=4"></script>
 </body>
 </html>

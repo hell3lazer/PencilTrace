@@ -1,4 +1,4 @@
-"""
+﻿"""
 
  OMRChecker
 
@@ -12,8 +12,8 @@ import jsonschema
 from jsonschema import validate
 from rich.table import Table
 
-from src.logger import console, logger
-from src.schemas import SCHEMA_JSONS, SCHEMA_VALIDATORS
+from backend.omr_engine.logger import console, logger
+from backend.omr_engine.schemas import SCHEMA_JSONS, SCHEMA_VALIDATORS
 
 
 def validate_evaluation_json(json_data, evaluation_path):

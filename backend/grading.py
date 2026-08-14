@@ -6,23 +6,20 @@ def grade_results(raw_omr_data, answer_key=None):
     graded_results = []
     
     for row in raw_omr_data:
-        # The exact structure depends on the template columns.
-        # Typically row[0] is image name, row[1] is file path, row[2] is saved path, row[3] is score
-        # The rest are question responses.
-        if len(row) < 5:
+        if len(row) < 5 or row[0] == 'file_id':
             continue
             
         filename = row[0]
         omr_score = row[3] 
         responses = row[4:]
         
-        # For PencilTrace, if answer_key is provided, we might re-score it here.
-        # Otherwise we trust OMRChecker's internal evaluation if configured.
+        # Clean up missing/multiple answers
+        cleaned_responses = [str(r) if str(r) != "MULTI" else "" for r in responses]
         
         graded_results.append({
             "filename": filename,
             "score": omr_score,
-            "responses": responses
+            "responses": cleaned_responses
         })
         
     return graded_results

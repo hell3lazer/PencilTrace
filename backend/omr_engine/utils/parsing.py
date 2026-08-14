@@ -1,15 +1,15 @@
-import re
+﻿import re
 from copy import deepcopy
 from fractions import Fraction
 
 from deepmerge import Merger
 from dotmap import DotMap
 
-from src.constants.common import FIELD_LABEL_NUMBER_REGEX
-from src.defaults import CONFIG_DEFAULTS, TEMPLATE_DEFAULTS
-from src.schemas.constants import FIELD_STRING_REGEX_GROUPS
-from src.utils.file import load_json
-from src.utils.validations import (
+from backend.omr_engine.constants.common import FIELD_LABEL_NUMBER_REGEX
+from backend.omr_engine.defaults import CONFIG_DEFAULTS, TEMPLATE_DEFAULTS
+from backend.omr_engine.schemas.constants import FIELD_STRING_REGEX_GROUPS
+from backend.omr_engine.utils.file import load_json
+from backend.omr_engine.utils.validations import (
     validate_config_json,
     validate_evaluation_json,
     validate_template_json,

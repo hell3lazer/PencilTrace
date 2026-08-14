@@ -1,0 +1,305 @@
+{
+    "pageDimensions": [
+        2296,
+        4080
+    ],
+    "bubbleDimensions": [
+        30,
+        25
+    ],
+    "preProcessors": [],
+    "customLabels": {
+        "IndexNumber": [
+            "D1",
+            "D2",
+            "D3",
+            "D4",
+            "D5",
+            "D6",
+            "C1",
+            "C2"
+        ]
+    },
+    "outputColumns": [
+        "IndexNumber",
+        "q1",
+        "q2",
+        "q3",
+        "q4",
+        "q5",
+        "q6",
+        "q7",
+        "q8",
+        "q9",
+        "q10",
+        "q11",
+        "q12",
+        "q13",
+        "q14",
+        "q15",
+        "q16",
+        "q17",
+        "q18",
+        "q19",
+        "q20",
+        "q21",
+        "q22",
+        "q23",
+        "q24",
+        "q25",
+        "q26",
+        "q27",
+        "q28",
+        "q29",
+        "q30",
+        "q31",
+        "q32",
+        "q33",
+        "q34",
+        "q35",
+        "q36",
+        "q37",
+        "q38",
+        "q39",
+        "q40",
+        "q41",
+        "q42",
+        "q43",
+        "q44",
+        "q45",
+        "q46",
+        "q47",
+        "q48",
+        "q49",
+        "q50",
+        "q51",
+        "q52",
+        "q53",
+        "q54",
+        "q55",
+        "q56",
+        "q57",
+        "q58",
+        "q59",
+        "q60"
+    ],
+    "fieldBlocks": {
+        "index_nums": {
+            "origin": [
+                140,
+                828
+            ],
+            "bubblesGap": 60,
+            "labelsGap": 47.222,
+            "direction": "vertical",
+            "bubbleDimensions": [
+                44,
+                30
+            ],
+            "bubbleValues": [
+                "0",
+                "1",
+                "2",
+                "3",
+                "4",
+                "5",
+                "6",
+                "7",
+                "8",
+                "9"
+            ],
+            "fieldLabels": [
+                "D1",
+                "D2",
+                "D3",
+                "D4",
+                "D5",
+                "D6"
+            ]
+        },
+        "index_char1": {
+            "origin": [
+                500,
+                828
+            ],
+            "bubblesGap": 85.5,
+            "labelsGap": 47.222,
+            "direction": "vertical",
+            "bubbleDimensions": [
+                44,
+                30
+            ],
+            "bubbleValues": [
+                "A",
+                "B",
+                "C",
+                "D",
+                "E",
+                "F",
+                "G",
+                "H",
+                "J",
+                "K"
+            ],
+            "fieldLabels": [
+                "C1"
+            ]
+        },
+        "index_char2": {
+            "origin": [
+                560,
+                828
+            ],
+            "bubblesGap": 85.5,
+            "labelsGap": 47.222,
+            "direction": "vertical",
+            "bubbleDimensions": [
+                44,
+                30
+            ],
+            "bubbleValues": [
+                "L",
+                "M",
+                "N",
+                "P",
+                "R",
+                "T",
+                "U",
+                "V",
+                "X"
+            ],
+            "fieldLabels": [
+                "C2"
+            ]
+        },
+        "q1_20": {
+            "origin": [
+                217,
+                1647
+            ],
+            "bubblesGap": 120,
+            "labelsGap": 83.736,
+            "direction": "horizontal",
+            "bubbleValues": [
+                "A",
+                "B",
+                "C",
+                "D",
+                "E"
+            ],
+            "fieldLabels": [
+                "q1",
+                "q2",
+                "q3",
+                "q4",
+                "q5",
+                "q6",
+                "q7",
+                "q8",
+                "q9",
+                "q10",
+                "q11",
+                "q12",
+                "q13",
+                "q14",
+                "q15",
+                "q16",
+                "q17",
+                "q18",
+                "q19",
+                "q20"
+            ],
+            "driftPerRow": 0,
+            "bubbleDimensions": [
+                44,
+                18
+            ]
+        },
+        "q21_40": {
+            "origin": [
+                956,
+                1647
+            ],
+            "bubblesGap": 120,
+            "labelsGap": 83.736,
+            "direction": "horizontal",
+            "bubbleValues": [
+                "A",
+                "B",
+                "C",
+                "D",
+                "E"
+            ],
+            "fieldLabels": [
+                "q21",
+                "q22",
+                "q23",
+                "q24",
+                "q25",
+                "q26",
+                "q27",
+                "q28",
+                "q29",
+                "q30",
+                "q31",
+                "q32",
+                "q33",
+                "q34",
+                "q35",
+                "q36",
+                "q37",
+                "q38",
+                "q39",
+                "q40"
+            ],
+            "driftPerRow": 0,
+            "bubbleDimensions": [
+                44,
+                18
+            ]
+        },
+        "q41_60": {
+            "origin": [
+                1696,
+                1647
+            ],
+            "bubblesGap": 120,
+            "labelsGap": 83.736,
+            "direction": "horizontal",
+            "bubbleValues": [
+                "A",
+                "B",
+                "C",
+                "D",
+                "E"
+            ],
+            "fieldLabels": [
+                "q41",
+                "q42",
+                "q43",
+                "q44",
+                "q45",
+                "q46",
+                "q47",
+                "q48",
+                "q49",
+                "q50",
+                "q51",
+                "q52",
+                "q53",
+                "q54",
+                "q55",
+                "q56",
+                "q57",
+                "q58",
+                "q59",
+                "q60"
+            ],
+            "driftPerRow": 0,
+            "bubbleDimensions": [
+                44,
+                18
+            ]
+        }
+    }
+}

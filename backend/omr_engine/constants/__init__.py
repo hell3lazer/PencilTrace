@@ -1,4 +1,4 @@
-"""
+﻿"""
 Constants package for OMRChecker.
 
 """

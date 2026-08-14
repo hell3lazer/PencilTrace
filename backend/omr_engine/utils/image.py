@@ -1,4 +1,4 @@
-"""
+﻿"""
 
  OMRChecker
 
@@ -10,7 +10,7 @@ import cv2
 import matplotlib.pyplot as plt
 import numpy as np
 
-from src.logger import logger
+from backend.omr_engine.logger import logger
 
 plt.rcParams["figure.figsize"] = (10.0, 8.0)
 CLAHE_HELPER = cv2.createCLAHE(clipLimit=5.0, tileGridSize=(8, 8))
@@ -142,12 +142,12 @@ class ImageUtils:
     def _resolve_pages(page_spec, doc_len):
         """Resolve user page spec into list of 1-based page numbers.
 
-        None          → all pages [1, 2, ..., doc_len]
-        int 3         → [3]
-        str "3"       → [3]
-        str "1-5"     → [1, 2, 3, 4, 5]
-        str "3-"      → [3, 4, ..., doc_len]
-        list [1,"3-5"]→ [1, 3, 4, 5]
+        None          â†’ all pages [1, 2, ..., doc_len]
+        int 3         â†’ [3]
+        str "3"       â†’ [3]
+        str "1-5"     â†’ [1, 2, 3, 4, 5]
+        str "3-"      â†’ [3, 4, ..., doc_len]
+        list [1,"3-5"]â†’ [1, 3, 4, 5]
         """
         if page_spec is None:
             return list(range(1, doc_len + 1))

@@ -1,5 +1,5 @@
-# Use all imports relative to root directory
-from src.processors.manager import Processor
+﻿# Use all imports relative to root directory
+from backend.omr_engine.processors.manager import Processor
 
 
 class ImagePreprocessor(Processor):

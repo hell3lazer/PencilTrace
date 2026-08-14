@@ -1,4 +1,4 @@
-TEMPLATE_BOILERPLATE = {
+﻿TEMPLATE_BOILERPLATE = {
     "pageDimensions": [2550, 3300],
     "bubbleDimensions": [32, 32],
     "preProcessors": [

@@ -1,13 +1,13 @@
-import os
+﻿import os
 from pathlib import Path
 
 import pandas as pd
 
-from src.tests.test_samples.sample2.boilerplate import (
+from backend.omr_engine.tests.test_samples.sample2.boilerplate import (
     CONFIG_BOILERPLATE,
     TEMPLATE_BOILERPLATE,
 )
-from src.tests.utils import (
+from backend.omr_engine.tests.utils import (
     generate_write_jsons_and_run,
     remove_file,
     run_entry_point,
@@ -17,7 +17,7 @@ from src.tests.utils import (
 from time import strftime, localtime
 
 from freezegun import freeze_time
-from src.tests.utils import FROZEN_TIMESTAMP
+from backend.omr_engine.tests.utils import FROZEN_TIMESTAMP
 
 with freeze_time(FROZEN_TIMESTAMP):
     TIME_NOW_HRS = strftime("%I%p", localtime())

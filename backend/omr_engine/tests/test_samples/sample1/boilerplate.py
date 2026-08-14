@@ -1,4 +1,4 @@
-TEMPLATE_BOILERPLATE = {
+﻿TEMPLATE_BOILERPLATE = {
     "pageDimensions": [300, 400],
     "bubbleDimensions": [25, 25],
     "preProcessors": [{"name": "CropPage", "options": {"morphKernel": [10, 10]}}],

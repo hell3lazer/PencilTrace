@@ -1,4 +1,4 @@
-TEMPLATE_DEFAULTS = {
+﻿TEMPLATE_DEFAULTS = {
     "preProcessors": [],
     "emptyValue": "",
     "customLabels": {},

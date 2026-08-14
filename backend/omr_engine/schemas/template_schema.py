@@ -1,5 +1,5 @@
-from src.constants.common import FIELD_TYPES
-from src.schemas.constants import ARRAY_OF_STRINGS, FIELD_STRING_TYPE
+﻿from backend.omr_engine.constants.common import FIELD_TYPES
+from backend.omr_engine.schemas.constants import ARRAY_OF_STRINGS, FIELD_STRING_TYPE
 
 positive_number = {"type": "number", "minimum": 0}
 positive_integer = {"type": "integer", "minimum": 0}
