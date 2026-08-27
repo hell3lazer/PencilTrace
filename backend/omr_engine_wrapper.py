@@ -63,22 +63,27 @@ def align_image(img_gray, img_color):
 def read_row_darkness(img_gray, origin_x, origin_y, bubblesGap, num_choices, box_w, box_h, debug_img=None):
     """
     Read darkness at each bubble position in a row.
-    Uses the 90th percentile of each ROI as background, returns sum of darkness below bg.
+    Returns both sum-of-darkness and pixel-count metrics for each bubble.
     """
-    vals = []
+    sum_vals = []
+    px_vals = []
     for i in range(num_choices):
         bx = int(origin_x + i * bubblesGap)
         by = int(origin_y)
         roi = img_gray[by:by+box_h, bx:bx+box_w]
+            
         if roi.size > 0:
             bg = np.percentile(roi, 90)
-            darkness = float(np.sum(np.maximum(0, bg - roi)))
-            vals.append(darkness)
+            diff = bg - roi.astype(np.float64)
+            sum_vals.append(float(np.sum(np.maximum(0, diff))))
+            px_vals.append(int(np.sum(diff > 25)))  # count pixels significantly darker than bg
         else:
-            vals.append(0.0)
+            sum_vals.append(0.0)
+            px_vals.append(0)
+                
         if debug_img is not None:
             cv2.rectangle(debug_img, (bx, by), (bx+box_w, by+box_h), (0, 255, 255), 1)
-    return vals
+    return sum_vals, px_vals
 
 def extract_bubbles(img_gray, origin, gap, num_bubbles, box_w, box_h, direction="horizontal", debug_img=None):
     """Legacy function kept for compatibility."""
@@ -111,6 +116,9 @@ def process_omr_batch(image_paths, template_path, output_dir="results"):
         
     box_w, box_h = template.get("bubbleDimensions", [25, 10])
     
+    template_img_path = os.path.join(os.path.dirname(__file__), "..", "templates", "template_uom_60q.png")
+    template_gray = cv2.imread(template_img_path, cv2.IMREAD_GRAYSCALE)
+    
     results = []
     for img_path in image_paths:
         img = cv2.imread(img_path, cv2.IMREAD_GRAYSCALE)
@@ -139,9 +147,9 @@ def process_omr_batch(image_paths, template_path, output_dir="results"):
                 origin_y = b["origin"][1]
                 vals = []
                 for digit in range(10):
-                    bx = int(origin_x)
-                    by = int(origin_y + digit * b["labelsGap"])
-                    roi = img[by:by+idx_box_h, bx:bx+idx_box_w]
+                    bx = int(origin_x) - 5
+                    by = int(origin_y + digit * b["labelsGap"]) - 5
+                    roi = img[by:by+idx_box_h+10, bx:bx+idx_box_w+10]
                     if roi.size > 0:
                         bg = np.percentile(roi, 90)
                         vals.append(float(np.sum(np.maximum(0, bg - roi))))
@@ -153,7 +161,7 @@ def process_omr_batch(image_paths, template_path, output_dir="results"):
                 # Row darkness ratio: how much darker is the max vs the median?
                 sorted_vals = sorted(vals, reverse=True)
                 ratio = sorted_vals[0] / max(sorted_vals[1], 1.0)
-                if ratio > 1.5:  # clearly dominant
+                if ratio > 1.20:  # clearly dominant
                     index_str += str(max_idx)
                 else:
                     index_str += "?"
@@ -163,9 +171,9 @@ def process_omr_batch(image_paths, template_path, output_dir="results"):
             idx_box_w, idx_box_h = b.get("bubbleDimensions", [20, 20])
             vals = []
             for i in range(10):
-                bx = int(b["origin"][0])
-                by = int(b["origin"][1] + i * b["labelsGap"])
-                roi = img[by:by+idx_box_h, bx:bx+idx_box_w]
+                bx = int(b["origin"][0]) - 5
+                by = int(b["origin"][1] + i * b["labelsGap"]) - 5
+                roi = img[by:by+idx_box_h+10, bx:bx+idx_box_w+10]
                 if roi.size > 0:
                     bg = np.percentile(roi, 90)
                     vals.append(float(np.sum(np.maximum(0, bg - roi))))
@@ -175,7 +183,7 @@ def process_omr_batch(image_paths, template_path, output_dir="results"):
             max_idx = int(np.argmax(vals))
             sorted_vals = sorted(vals, reverse=True)
             ratio = sorted_vals[0] / max(sorted_vals[1], 1.0)
-            if ratio > 1.5:
+            if ratio > 2.05:
                 index_str += b["bubbleValues"][max_idx]
             else:
                 index_str += "?"
@@ -186,9 +194,9 @@ def process_omr_batch(image_paths, template_path, output_dir="results"):
             vals = []
             n_choices = len(b["bubbleValues"])
             for i in range(n_choices):
-                bx = int(b["origin"][0])
-                by = int(b["origin"][1] + i * b["labelsGap"])
-                roi = img[by:by+idx_box_h, bx:bx+idx_box_w]
+                bx = int(b["origin"][0]) - 5
+                by = int(b["origin"][1] + i * b["labelsGap"]) - 5
+                roi = img[by:by+idx_box_h+10, bx:bx+idx_box_w+10]
                 if roi.size > 0:
                     bg = np.percentile(roi, 90)
                     vals.append(float(np.sum(np.maximum(0, bg - roi))))
@@ -198,7 +206,7 @@ def process_omr_batch(image_paths, template_path, output_dir="results"):
             max_idx = int(np.argmax(vals))
             sorted_vals = sorted(vals, reverse=True)
             ratio = sorted_vals[0] / max(sorted_vals[1], 1.0)
-            if ratio > 1.5:
+            if ratio > 2.05:
                 index_str += b["bubbleValues"][max_idx]
             else:
                 index_str += "?"
@@ -227,35 +235,36 @@ def process_omr_batch(image_paths, template_path, output_dir="results"):
                 # Use the exact Y coordinate from the template for this row
                 orig_y = row_ys[r]
                 
+                # Increase box size by 10 pixels to tolerate minor local distortions
+                adj_x = orig_x - 5
+                adj_y = orig_y - 5
+                adj_w = q_box_w + 10
+                adj_h = q_box_h + 10
+                
                 # Read darkness at each bubble position in this row
-                row_vals = read_row_darkness(img, orig_x, orig_y, b["bubblesGap"], num_choices, q_box_w, q_box_h, img_color)
-                row_vals = np.array(row_vals)
+                sum_vals, px_vals = read_row_darkness(img, adj_x, adj_y, b["bubblesGap"], num_choices, adj_w, adj_h, img_color)
                 
-                print(f"{field_label} vals: {row_vals}")
+                print(f"{field_label} sum_vals: {sum_vals} px_vals: {px_vals}")
                 
-                max_idx = int(np.argmax(row_vals))
-                max_val = float(row_vals[max_idx])
+                # Use sum-of-darkness with relative (min-subtracted) values
+                # sum_rel metric: subtract per-row minimum to normalize background variation
+                min_v = min(sum_vals)
+                adj_vals = [v - min_v for v in sum_vals]
+                
+                max_idx = int(np.argmax(adj_vals))
+                max_val = float(adj_vals[max_idx])
                 
                 ans = "-"
-                if max_val > 2000:
-                    # Check for ambiguity
-                    sorted_vals = sorted(row_vals, reverse=True)
-                    # Second-highest must be significantly lower (< 65% of max) for clean mark
-                    if sorted_vals[1] > max_val * 0.65:
-                        ans = "-"  # ambiguous or unmarked row
-                    else:
+                if max_val > 100.0:
+                    sorted_vals = sorted(adj_vals, reverse=True)
+                    if sorted_vals[1] <= max_val * 0.90:
                         ans = b["bubbleValues"][max_idx]
                         
-                if field_label == "q18":
-                    ans = "-"
-                    
                 q_results[field_label] = ans
             
         for i in range(1, 61):
             row.append(q_results.get(f"q{i}", ""))
             
         results.append(row)
-        
-        cv2.imwrite(r"C:\Users\user\.gemini\antigravity\brain\6754f51b-e5dc-4910-9811-0d530d887402\scratch\debug_boxes_final.jpg", img_color)
         
     return results

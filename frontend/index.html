@@ -4,98 +4,190 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>PencilTrace Workspace</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="/static/style.css?v=3">
+    <!-- Modern Font: Plus Jakarta Sans for a premium tech feel -->
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/static/style.css?v=7">
 </head>
 <body>
-    <div class="app-container">
-        <!-- Sidebar Navigation -->
-        <aside class="sidebar">
-            <div class="logo">
-                <h2>PencilTrace</h2>
+    <div class="app-layout">
+        
+        <!-- Modern Thin Sidebar -->
+        <aside class="sidebar-modern">
+            <div class="brand">
+                <div class="brand-logo">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
+                    </svg>
+                </div>
+                <span>PencilTrace</span>
             </div>
-            <nav>
+            
+            <nav class="nav-modern" style="flex: 1;">
                 <ul>
                     <li class="active" data-view="dashboard">
-                        <span class="icon">📁</span> Dashboard
+                        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>
+                        Dashboard
                     </li>
                     <li data-view="results">
-                        <span class="icon">📊</span> Results
+                        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21.21 15.89A10 10 0 1 1 8 2.83"></path><path d="M22 12A10 10 0 0 0 12 2v10z"></path></svg>
+                        Results
                     </li>
                 </ul>
             </nav>
+
+            <div class="theme-switcher" style="margin-top: auto; padding-top: 20px; border-top: 1px solid var(--border);">
+                <label style="display: block; font-size: 0.85rem; font-weight: 600; color: var(--text-muted); margin-bottom: 8px;">Theme</label>
+                <select id="themeSelect" class="modern-select" style="width: 100%;">
+                    <option value="system">System</option>
+                    <option value="light">Light</option>
+                    <option value="dark">Dark</option>
+                </select>
+            </div>
         </aside>
 
         <!-- Main Content Area -->
-        <main class="content-area">
+        <main class="main-content">
             
             <!-- Dashboard View -->
             <section id="dashboard" class="view active">
-                <header>
-                    <h1>Batch Processing</h1>
-                    <p>Upload a folder of OMR sheets for processing</p>
+                <header class="page-header">
+                    <div>
+                        <h1>Batch Processing</h1>
+                        <p>Process your scanned OMR sheets rapidly with automated grading.</p>
+                    </div>
                 </header>
                 
-                <div class="upload-card glass-panel">
-                    <div class="upload-zone" id="folderDropZone">
-                        <span class="upload-icon">📂</span>
-                        <h3>Select files or a folder, or drop them here</h3>
-                        <p>Process multiple scanned exams at once.</p>
-                        <input type="file" id="fileInput" multiple accept=".jpg,.jpeg,.png,.heic,.heif" hidden>
-                        <input type="file" id="folderInput" webkitdirectory directory multiple hidden>
-                        <div style="display: flex; gap: 10px; justify-content: center; margin-top: 15px;">
-                            <button class="btn primary" onclick="document.getElementById('fileInput').click()">Choose Files</button>
-                            <button class="btn outline" onclick="document.getElementById('folderInput').click()">Choose Folder</button>
+                <!-- Modern Bento Grid Layout -->
+                <div class="bento-grid">
+                    
+                    <!-- Left: Large Dropzone Card -->
+                    <div class="bento-card primary-card">
+                        <div class="card-header">
+                            <span class="step-badge-modern">1</span>
+                            <h2>Upload Sheets</h2>
+                        </div>
+                        <p class="text-muted">Select or drop scanned image files (JPG, PNG, HEIC).</p>
+                        
+                        <div class="modern-dropzone" id="folderDropZone">
+                            <div class="dropzone-icon">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" y1="3" x2="12" y2="15"></line></svg>
+                            </div>
+                            <h3 id="fileCountText">Drop files here</h3>
+                            <p>or use the buttons below</p>
+                            
+                            <input type="file" id="fileInput" multiple accept=".jpg,.jpeg,.png,.heic,.heif" hidden>
+                            <input type="file" id="folderInput" webkitdirectory directory multiple hidden>
+                            
+                            <div class="dropzone-actions">
+                                <button class="btn-modern btn-primary" onclick="document.getElementById('fileInput').click()">Choose Files</button>
+                                <button class="btn-modern btn-outline" onclick="document.getElementById('folderInput').click()">Choose Folder</button>
+                            </div>
                         </div>
                     </div>
-                    
-                    <div class="config-section">
-                        <label for="templateSelect">Template:</label>
-                        <div style="display: flex; gap: 10px;">
-                            <select id="templateSelect" class="input-modern" style="flex: 1;">
-                                <option value="template_uom_60q.json">UoM 60-Question</option>
-                            </select>
-                            <button id="importBtn" class="btn outline" onclick="document.getElementById('importInput').click()">Import</button>
-                            <input type="file" id="importInput" accept=".json" hidden>
-                            <button id="exportBtn" class="btn outline">Export</button>
+
+                    <!-- Right Column: Settings & Execution -->
+                    <div class="bento-col">
+                        
+                        <!-- Template Setup -->
+                        <div class="bento-card">
+                            <div class="card-header">
+                                <span class="step-badge-modern">2</span>
+                                <h2>Template</h2>
+                            </div>
+                            <div class="config-controls">
+                                <select id="templateSelect" class="modern-select">
+                                    <option value="template_uom_60q.json">UoM 60-Question</option>
+                                </select>
+                                <div class="action-icons">
+                                    <button id="importBtn" class="btn-icon" title="Import Template" onclick="document.getElementById('importInput').click()">
+                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                                    </button>
+                                    <input type="file" id="importInput" accept=".json" hidden>
+                                    <button id="exportBtn" class="btn-icon" title="Export Template">
+                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+                                    </button>
+                                </div>
+                            </div>
                         </div>
+
+                        <!-- Answer Key Setup -->
+                        <div class="bento-card">
+                            <div class="card-header">
+                                <span class="step-badge-modern optional">3</span>
+                                <h2>Answer Key</h2>
+                            </div>
+                            <p class="text-muted text-sm" style="margin-bottom: 12px;">Upload answers.csv for auto-grading</p>
+                            
+                            <div style="display: flex; align-items: center; gap: 12px; flex-wrap: wrap;">
+                                <button class="btn-modern btn-secondary" onclick="document.getElementById('answerKeyInput').click()">
+                                    <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
+                                    Select CSV
+                                </button>
+                                <span id="answerKeyStatus" class="status-badge">No key selected</span>
+                                <input type="file" id="answerKeyInput" accept=".csv" hidden>
+                            </div>
+                        </div>
+
+                        <!-- Start Button -->
+                        <div class="bento-card action-card">
+                            <button id="startProcessBtn" class="btn-modern btn-glow full-width" disabled>
+                                <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" style="margin-right:8px; vertical-align:middle;"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+                                Start Marking Process
+                            </button>
+                        </div>
+                        
                     </div>
-                    
-                    <button id="startProcessBtn" class="btn success full-width" disabled>Start Marking Process</button>
                 </div>
                 
-                <div class="progress-section" id="progressSection" style="display: none;">
-                    <h3>Processing...</h3>
-                    <div class="progress-bar">
-                        <div class="progress-fill" id="progressFill"></div>
+                <!-- Progress Section -->
+                <div class="bento-card progress-card" id="progressSection" style="display: none; margin-top: 24px;">
+                    <div style="display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 12px;">
+                        <h3 style="margin:0;">Processing Engine</h3>
+                        <span id="progressText" class="text-muted text-sm">0 / 0 files</span>
                     </div>
-                    <p id="progressText">0 / 0 files processed</p>
+                    <div class="modern-progress-bar">
+                        <div class="modern-progress-fill" id="progressFill"></div>
+                    </div>
                 </div>
             </section>
 
 
-
             <!-- Results View -->
             <section id="results" class="view">
-                <header style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
-                    <h1>Results & Analytics</h1>
-                    <div style="display: flex; gap: 10px; align-items: center;">
-                        <label style="color: var(--text-muted); cursor: pointer; display: flex; align-items: center; gap: 5px;">
-                            <input type="checkbox" id="selectAllCheckbox"> Select All
+                <header class="page-header" style="flex-direction: row; justify-content: space-between; align-items: center;">
+                    <div>
+                        <h1>Results & Analytics</h1>
+                        <p>View, manage, and export your graded papers.</p>
+                    </div>
+                    
+                    <div class="results-actions">
+                        <label class="modern-checkbox-label">
+                            <input type="checkbox" id="selectAllCheckbox">
+                            <span>Select All</span>
                         </label>
-                        <button id="exportSelectedCsvBtn" class="btn outline">Export Selected</button>
-                        <button id="exportAllCsvBtn" class="btn primary">Export All</button>
+                        <div class="divider"></div>
+                        <button id="deleteSelectedBtn" class="btn-modern btn-danger">
+                            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>
+                            Delete
+                        </button>
+                        <button id="exportSelectedCsvBtn" class="btn-modern btn-outline">Export Selected</button>
+                        <button id="exportAllCsvBtn" class="btn-modern btn-primary">Export All</button>
                     </div>
                 </header>
+                
                 <div class="results-table-container">
-                    <div id="resultsList" class="results-list">
-                        <div class="empty-state glass-panel" style="padding: 2rem; text-align: center;">No results yet. Run a batch process to see data here.</div>
+                    <div id="resultsList" class="modern-results-grid">
+                        <div class="bento-card empty-state">
+                            <div class="empty-icon">📊</div>
+                            <h3>No results to display</h3>
+                            <p class="text-muted">Run a batch process from the dashboard to populate this section.</p>
+                        </div>
                     </div>
                 </div>
             </section>
         </main>
     </div>
 
-    <script src="/static/app.js?v=4"></script>
+    <script src="/static/app.js?v=7"></script>
 </body>
 </html>

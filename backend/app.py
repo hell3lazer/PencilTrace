@@ -38,9 +38,10 @@ async def read_index():
         return f.read()
 
 @app.post("/api/process")
-async def process_image(file: UploadFile = File(...), template_name: str = Form("default.json")):
+async def process_image(file: UploadFile = File(...), template_name: str = Form("default.json"), answer_key: str = Form(None)):
     # Save the uploaded file
-    file_path = os.path.join(UPLOADS_DIR, file.filename)
+    safe_filename = os.path.basename(file.filename)
+    file_path = os.path.join(UPLOADS_DIR, safe_filename)
     with open(file_path, "wb") as buffer:
         shutil.copyfileobj(file.file, buffer)
         
@@ -60,7 +61,7 @@ async def process_image(file: UploadFile = File(...), template_name: str = Form(
             img = background
         else:
             img = img.convert("RGB")
-        standardized_path = os.path.join(UPLOADS_DIR, "std_" + file.filename + ".jpg")
+        standardized_path = os.path.join(UPLOADS_DIR, "std_" + safe_filename + ".jpg")
         img.save(standardized_path, "JPEG")
         omr_input_path = standardized_path
     except Exception:
@@ -68,18 +69,27 @@ async def process_image(file: UploadFile = File(...), template_name: str = Form(
     
     from backend.omr_engine_wrapper import process_omr_batch
     from backend.grading import grade_results
+    import json
     
     try:
         raw_data = process_omr_batch([omr_input_path], template_path, output_dir=UPLOADS_DIR)
-        graded = grade_results(raw_data)
+        
+        parsed_answer_key = None
+        if answer_key:
+            try:
+                parsed_answer_key = json.loads(answer_key)
+            except:
+                pass
+                
+        graded = grade_results(raw_data, answer_key=parsed_answer_key)
         
         if graded:
             result = graded[0]
-            return JSONResponse(content={"status": "success", "filename": file.filename, "score": result["score"], "responses": result["responses"]})
+            return JSONResponse(content={"status": "success", "filename": safe_filename, "score": result["score"], "responses": result["responses"]})
         else:
-            return JSONResponse(content={"status": "error", "filename": file.filename, "message": "No results generated. Ensure template matches image."})
+            return JSONResponse(content={"status": "error", "filename": safe_filename, "message": "No results generated. Ensure template matches image."})
     except Exception as e:
-        return JSONResponse(content={"status": "error", "filename": file.filename, "message": str(e)})
+        return JSONResponse(content={"status": "error", "filename": safe_filename, "message": str(e)})
 
 @app.get("/api/templates")
 async def list_templates():
@@ -88,14 +98,15 @@ async def list_templates():
 
 @app.post("/api/templates/import")
 async def import_template(file: UploadFile = File(...)):
-    if not file.filename.endswith(".json"):
+    safe_filename = os.path.basename(file.filename)
+    if not safe_filename.endswith(".json"):
         return JSONResponse(content={"status": "error", "message": "Only JSON templates are allowed."})
     
-    file_path = os.path.join(TEMPLATES_DIR, file.filename)
+    file_path = os.path.join(TEMPLATES_DIR, safe_filename)
     with open(file_path, "wb") as buffer:
         shutil.copyfileobj(file.file, buffer)
         
-    return JSONResponse(content={"status": "success", "message": f"Template {file.filename} imported successfully.", "filename": file.filename})
+    return JSONResponse(content={"status": "success", "message": f"Template {safe_filename} imported successfully.", "filename": safe_filename})
 
 from fastapi.responses import FileResponse
 
